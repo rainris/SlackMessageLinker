@@ -2,91 +2,41 @@
 <html>
 
 <head>
-    <title>SlackMessageLinker Options</title>
-    <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            padding: 15px;
-            width: 300px;
-            color: #333;
-            margin: 0;
-        }
-
-        .title {
-            background-color: #FFAB40;
-            color: white;
-            font-size: 18px;
-            padding: 10px;
-            margin: -15px -15px 20px -15px;
-            border-radius: 0 0 10px 10px;
-        }
-
-        .option {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px;
-        }
-
-        .switch {
-            position: relative;
-            display: inline-block;
-            width: 50px;
-            height: 24px;
-        }
-
-        .switch input {
-            opacity: 0;
-            width: 0;
-            height: 0;
-        }
-
-        .slider {
-            position: absolute;
-            cursor: pointer;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: #ccc;
-            transition: .4s;
-            border-radius: 24px;
-        }
-
-        .slider:before {
-            position: absolute;
-            content: "";
-            height: 20px;
-            width: 20px;
-            left: 2px;
-            bottom: 2px;
-            background-color: white;
-            transition: .4s;
-            border-radius: 50%;
-        }
-
-        input:checked+.slider {
-            background-color: #FFAB40;
-        }
-
-        input:checked+.slider:before {
-            transform: translateX(26px);
-        }
-    </style>
+    <title>Extension Options</title>
+    <link rel="stylesheet" type="text/css" href="popup.css">
 </head>
 
 <body>
 
     <div class="title">SlackMessageLinker Options</div>
     <div class="option">
-        <span>Show alert on successful copy</span>
+        <span>Show "Copy Slack Message" button</span>
         <label class="switch">
-            <input type="checkbox" id="alertOption">
-            <span class="slider"></span>
+            <input type="checkbox" id="showSlackMessageButton">
+            <span class="slider round"></span>
         </label>
     </div>
-
-    <!-- And more options here -->
+    <div class="option">
+        <span>Show "Copy Commit Message" button</span>
+        <label class="switch">
+            <input type="checkbox" id="showCommitMessageButton">
+            <span class="slider round"></span>
+        </label>
+    </div>
+    <div class="option">
+        <span>Show "Copy Link" button</span>
+        <label class="switch">
+            <input type="checkbox" id="showLinkButton">
+            <span class="slider round"></span>
+        </label>
+    </div>
+    <div class="option">
+        <span>Show alert on successful copy</span>
+        <label class="switch">
+            <input type="checkbox" id="showAlert">
+            <span class="slider round"></span>
+        </label>
+    </div>
 
     <script src="popup.js"></script>
 </body>

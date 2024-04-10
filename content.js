@@ -1,65 +1,75 @@
 const targetDivs = document.querySelectorAll('.aui-page-header-main');
 
 targetDivs.forEach(div => {
-    const ol = div.querySelector('ol');
-    if (ol) {
-        const slackListItem = document.createElement('li');
-        const slackButton = document.createElement('button');
-        slackButton.textContent = 'Copy Slack Message';
-        slackButton.addEventListener('click', function () {
-            const slackMessage = generateSlackMessage(div);
-            navigator.clipboard.writeText(slackMessage).then(() => {
-                chrome.storage.local.get('slackMessageLinker_showAlert', function (data) {
-                    const showAlert = data.slackMessageLinker_showAlert;
-                    if (showAlert) {
-                        alert('The message has been successfully copied to your clipboard!');
-                    }
-                });
-            }, (err) => {
-                alert(`Oops! Couldn't sneak that link into your clipboard.\nError: ${err}`);
-            });
-        });
-        slackListItem.appendChild(slackButton);
-        ol.appendChild(slackListItem);
+    chrome.storage.local.get(['showSlackMessageButton', 'showCommitMessageButton', 'showLinkButton'], function (options) {
+        const ol = div.querySelector('ol');
+        if (ol) {
+            const showSlackMessageButton = options.showSlackMessageButton === undefined ? true : options.showSlackMessageButton;
+            const showCommitMessageButton = options.showCommitMessageButton === undefined ? true : options.showCommitMessageButton;
+            const showLinkButton = options.showLinkButton === undefined ? true : options.showLinkButton;
 
-        const commitListItem = document.createElement('li');
-        const commitButton = document.createElement('button');
-        commitButton.textContent = 'Copy Commit Message';
-        commitButton.addEventListener('click', function () {
-            const commitMessage = generateCommitMessage(div);
-            navigator.clipboard.writeText(commitMessage).then(() => {
-                chrome.storage.local.get('slackMessageLinker_showAlert', function (data) {
-                    const showAlert = data.slackMessageLinker_showAlert;
-                    if (showAlert) {
-                        alert('The message has been successfully copied to your clipboard!');
-                    }
+            if (showSlackMessageButton) {
+                const slackListItem = document.createElement('li');
+                const slackButton = document.createElement('button');
+                slackButton.textContent = 'Copy Slack Message';
+                slackButton.addEventListener('click', function () {
+                    const slackMessage = generateSlackMessage(div);
+                    navigator.clipboard.writeText(slackMessage).then(() => {
+                        chrome.storage.local.get('showAlert', function (data) {
+                            const showAlert = data.showAlert;
+                            if (showAlert) {
+                                alert('The message has been successfully copied to your clipboard!');
+                            }
+                        });
+                    }, (err) => {
+                        alert(`Oops! Couldn't sneak that link into your clipboard.\nError: ${err}`);
+                    });
                 });
-            }, (err) => {
-                alert(`Oops! Couldn't sneak that link into your clipboard.\nError: ${err}`);
-            });
-        });
-        commitListItem.appendChild(commitButton);
-        ol.appendChild(commitListItem);
-
-        const urlListItem = document.createElement('li');
-        const urlButton = document.createElement('button');
-        urlButton.textContent = 'Copy Link';
-        urlButton.addEventListener('click', function () {
-            const absoluteUrl = extractAbsoluteUrl(div)
-            navigator.clipboard.writeText(absoluteUrl).then(() => {
-                chrome.storage.local.get('slackMessageLinker_showAlert', function (data) {
-                    const showAlert = data.slackMessageLinker_showAlert;
-                    if (showAlert) {
-                        alert('The url has been successfully copied to your clipboard!');
-                    }
+                slackListItem.appendChild(slackButton);
+                ol.appendChild(slackListItem);
+            }
+            if (showCommitMessageButton) {
+                const commitListItem = document.createElement('li');
+                const commitButton = document.createElement('button');
+                commitButton.textContent = 'Copy Commit Message';
+                commitButton.addEventListener('click', function () {
+                    const commitMessage = generateCommitMessage(div);
+                    navigator.clipboard.writeText(commitMessage).then(() => {
+                        chrome.storage.local.get('showAlert', function (data) {
+                            const showAlert = data.showAlert;
+                            if (showAlert) {
+                                alert('The message has been successfully copied to your clipboard!');
+                            }
+                        });
+                    }, (err) => {
+                        alert(`Oops! Couldn't sneak that link into your clipboard.\nError: ${err}`);
+                    });
                 });
-            }, (err) => {
-                alert(`Oops! Couldn't sneak that link into your clipboard.\nError: ${err}`);
-            });
-        });
-        urlListItem.appendChild(urlButton);
-        ol.appendChild(urlListItem);
-    }
+                commitListItem.appendChild(commitButton);
+                ol.appendChild(commitListItem);
+            }
+            if (showLinkButton) {
+                const urlListItem = document.createElement('li');
+                const urlButton = document.createElement('button');
+                urlButton.textContent = 'Copy Link';
+                urlButton.addEventListener('click', function () {
+                    const absoluteUrl = extractAbsoluteUrl(div)
+                    navigator.clipboard.writeText(absoluteUrl).then(() => {
+                        chrome.storage.local.get('showAlert', function (data) {
+                            const showAlert = data.showAlert;
+                            if (showAlert) {
+                                alert('The url has been successfully copied to your clipboard!');
+                            }
+                        });
+                    }, (err) => {
+                        alert(`Oops! Couldn't sneak that link into your clipboard.\nError: ${err}`);
+                    });
+                });
+                urlListItem.appendChild(urlButton);
+                ol.appendChild(urlListItem);
+            }
+        }
+    });
 });
 
 function generateSlackMessage(targetDiv) {
