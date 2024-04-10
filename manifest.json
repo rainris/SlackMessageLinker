@@ -1,7 +1,7 @@
 {
     "manifest_version": 3,
     "name": "Copy Slack Message from VCD2",
-    "version": "0.1",
+    "version": "0.1.1",
     "description": "VCD2 Team's tailor-made Slack Message Generator, straight from the source!",
     "permissions": [
         "activeTab",
