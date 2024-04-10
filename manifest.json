@@ -5,7 +5,8 @@
     "description": "VCD2 Team's tailor-made Slack Message Generator, straight from the source!",
     "permissions": [
         "activeTab",
-        "clipboardWrite"
+        "clipboardWrite",
+        "storage"
     ],
     "background": {
         "service_worker": "background.js"

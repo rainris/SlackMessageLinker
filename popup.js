@@ -1,13 +1,13 @@
-document.getElementById('copyInfoBtn').addEventListener('click', function () {
-    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-        chrome.tabs.sendMessage(tabs[0].id, { action: "collectInfo" }, function (response) {
-            if (response.info) {
-                navigator.clipboard.writeText(response.info).then(() => {
-                    alert('Information copied to clipboard!');
-                }, (err) => {
-                    console.error('Failed to copy information: ', err);
-                });
-            }
+document.addEventListener('DOMContentLoaded', function () {
+    const alertOption = document.getElementById('alertOption');
+    chrome.storage.local.get('slackMessageLinker_showAlert', function (data) {
+        alertOption.checked = data.slackMessageLinker_showAlert || false; 
+    });
+
+    alertOption.addEventListener('change', function () {
+        const showAlert = alertOption.checked;
+        chrome.storage.local.set({ 'slackMessageLinker_showAlert': showAlert }, function () {
+            console.log('Saved');
         });
     });
 });

@@ -9,7 +9,12 @@ targetDivs.forEach(div => {
         slackButton.addEventListener('click', function () {
             const slackMessage = generateSlackMessage(div);
             navigator.clipboard.writeText(slackMessage).then(() => {
-                alert('The message has been successfully copied to your clipboard!');
+                chrome.storage.local.get('slackMessageLinker_showAlert', function (data) {
+                    const showAlert = data.slackMessageLinker_showAlert;
+                    if (showAlert) {
+                        alert('The message has been successfully copied to your clipboard!');
+                    }
+                });
             }, (err) => {
                 alert(`Oops! Couldn't sneak that link into your clipboard.\nError: ${err}`);
             });
@@ -23,7 +28,12 @@ targetDivs.forEach(div => {
         commitButton.addEventListener('click', function () {
             const commitMessage = generateCommitMessage(div);
             navigator.clipboard.writeText(commitMessage).then(() => {
-                alert('The message has been successfully copied to your clipboard!');
+                chrome.storage.local.get('slackMessageLinker_showAlert', function (data) {
+                    const showAlert = data.slackMessageLinker_showAlert;
+                    if (showAlert) {
+                        alert('The message has been successfully copied to your clipboard!');
+                    }
+                });
             }, (err) => {
                 alert(`Oops! Couldn't sneak that link into your clipboard.\nError: ${err}`);
             });
@@ -37,7 +47,12 @@ targetDivs.forEach(div => {
         urlButton.addEventListener('click', function () {
             const absoluteUrl = extractAbsoluteUrl(div)
             navigator.clipboard.writeText(absoluteUrl).then(() => {
-                alert('The url has been successfully copied to your clipboard!');
+                chrome.storage.local.get('slackMessageLinker_showAlert', function (data) {
+                    const showAlert = data.slackMessageLinker_showAlert;
+                    if (showAlert) {
+                        alert('The url has been successfully copied to your clipboard!');
+                    }
+                });
             }, (err) => {
                 alert(`Oops! Couldn't sneak that link into your clipboard.\nError: ${err}`);
             });
