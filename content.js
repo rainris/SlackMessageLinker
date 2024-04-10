@@ -48,13 +48,14 @@ targetDivs.forEach(div => {
 });
 
 function generateSlackMessage(targetDiv) {
-    const absoluteUrl = extractAbsoluteUrl(targetDiv)
-    return `{Summary or} ${title}\n\`BTS ${absoluteUrl}\n\`PR {PR Link}`;
+    const title = document.querySelector('title').textContent;
+    const absoluteUrl = extractAbsoluteUrl(targetDiv);
+    return `{Summary or} ${title}\n\`BTS\` ${absoluteUrl}\n\`PR\` {PR Link}`;
 }
 
 function generateCommitMessage(targetDiv) {
     const ol = targetDiv.querySelector('ol');
-    const secondLi = ol.querySelectorAll('li')[1]; 
+    const secondLi = ol.querySelectorAll('li')[1];
     const btsNumber = secondLi.textContent
 
     const h1 = targetDiv.querySelector('h1');
@@ -65,7 +66,7 @@ function generateCommitMessage(targetDiv) {
 
 function extractAbsoluteUrl(targetDiv) {
     const ol = targetDiv.querySelector('ol');
-    const secondLi = ol.querySelectorAll('li')[1]; 
+    const secondLi = ol.querySelectorAll('li')[1];
 
     const link = secondLi.querySelector('a');
     const url = link.getAttribute('href');
