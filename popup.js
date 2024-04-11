@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function () {
-    const options = ['showSlackMessageButton', 'showCommitMessageButton', 'showLinkButton'];
+    const options = ['showSlackMessageButton', 'showCommitMessageButton', 'showLinkButton', 'showBTSNumberButton'];
     options.forEach(option => {
         chrome.storage.local.get(option, function (data) {
             const isChecked = data[option] === undefined ? true : data[option];

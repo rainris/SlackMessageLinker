@@ -1,12 +1,13 @@
 const targetDivs = document.querySelectorAll('.aui-page-header-main');
 
 targetDivs.forEach(div => {
-    chrome.storage.local.get(['showSlackMessageButton', 'showCommitMessageButton', 'showLinkButton'], function (options) {
+    chrome.storage.local.get(['showSlackMessageButton', 'showCommitMessageButton', 'showLinkButton', 'showBTSNumberButton'], function (options) {
         const ol = div.querySelector('ol');
         if (ol) {
             const showSlackMessageButton = options.showSlackMessageButton === undefined ? true : options.showSlackMessageButton;
             const showCommitMessageButton = options.showCommitMessageButton === undefined ? true : options.showCommitMessageButton;
             const showLinkButton = options.showLinkButton === undefined ? true : options.showLinkButton;
+            const showBTSNumberButton = options.showBTSNumberButton === undefined ? true : options.showBTSNumberButton;
 
             if (showSlackMessageButton) {
                 const slackListItem = document.createElement('li');
@@ -68,6 +69,26 @@ targetDivs.forEach(div => {
                 urlListItem.appendChild(urlButton);
                 ol.appendChild(urlListItem);
             }
+            if (showBTSNumberButton) {
+                const urlListItem = document.createElement('li');
+                const urlButton = document.createElement('button');
+                urlButton.textContent = 'Copy BTS Number';
+                urlButton.addEventListener('click', function () {
+                    const absoluteUrl = extractBTSNumber(div)
+                    navigator.clipboard.writeText(absoluteUrl).then(() => {
+                        chrome.storage.local.get('showAlert', function (data) {
+                            const showAlert = data.showAlert;
+                            if (showAlert) {
+                                alert('The url has been successfully copied to your clipboard!');
+                            }
+                        });
+                    }, (err) => {
+                        alert(`Oops! Couldn't sneak that link into your clipboard.\nError: ${err}`);
+                    });
+                });
+                urlListItem.appendChild(urlButton);
+                ol.appendChild(urlListItem);
+            }
         }
     });
 });
@@ -100,4 +121,14 @@ function extractAbsoluteUrl(targetDiv) {
     const absoluteUrl = new URL(link.getAttribute('href'), window.location.href).href;
 
     return absoluteUrl;
+}
+
+function extractBTSNumber(targetDiv) {
+    const urlString = extractAbsoluteUrl(targetDiv)
+    const url = new URL(urlString);
+    const pathname = url.pathname;
+    const pathSegments = pathname.split('/');
+    const lastPath = pathSegments[pathSegments.length - 1] || pathSegments[pathSegments.length - 2];
+
+    return lastPath;
 }
