@@ -75,7 +75,7 @@ targetDivs.forEach(div => {
 function generateSlackMessage(targetDiv) {
     const title = document.querySelector('title').textContent;
     const absoluteUrl = extractAbsoluteUrl(targetDiv);
-    return `{Summary or} ${title}\n\`BTS\` ${absoluteUrl}\n\`PR\` {PR Link}`;
+    return `${title}\n\`BTS\` ${absoluteUrl}`;
 }
 
 function generateCommitMessage(targetDiv) {
@@ -86,7 +86,9 @@ function generateCommitMessage(targetDiv) {
     const h1 = targetDiv.querySelector('h1');
     const btsTitle = h1.textContent;
 
-    return `[${btsNumber}]${btsTitle}`;
+    const absoluteUrl = extractAbsoluteUrl(targetDiv);
+
+    return `[${btsNumber}]${btsTitle}\n- ${absoluteUrl}`;
 }
 
 function extractAbsoluteUrl(targetDiv) {
