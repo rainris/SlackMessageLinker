@@ -94,6 +94,32 @@ function addButtonsToDivs() {
                     urlListItem.appendChild(urlButton);
                     ol.appendChild(urlListItem);
                 }
+
+                const currentUrl = window.location.href;
+                if (!ol.querySelector('.switch-url-button')) {
+                    const urlListItem = document.createElement('li');
+                    const urlButton = document.createElement('button');
+                    urlButton.classList.add('switch-url-button');
+
+                    if (currentUrl.startsWith('https://jira.workers-hub.com/browse/')) {
+                        urlButton.textContent = 'Switch to LINE BTS';
+                        urlButton.addEventListener('click', function () {
+                            const newUrl = currentUrl.replace('https://jira.workers-hub.com/browse/', 'https://bts.linecorp.com/browse/');
+                            window.location.href = newUrl;
+                        });
+                    } else if (currentUrl.startsWith('https://bts.linecorp.com/browse/')) {
+                        urlButton.textContent = 'Switch to LY Jira';
+                        urlButton.addEventListener('click', function () {
+                            const newUrl = currentUrl.replace('https://bts.linecorp.com/browse/', 'https://jira.workers-hub.com/browse/');
+                            window.location.href = newUrl;
+                        });
+                    } else {
+                        urlButton.style.display = 'none';
+                    }
+
+                    urlListItem.appendChild(urlButton);
+                    ol.appendChild(urlListItem);
+                }
             }
         });
     });
