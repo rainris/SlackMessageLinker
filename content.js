@@ -126,9 +126,12 @@ function addButtonsToDivs() {
 }
 
 function generateSlackMessage(targetDiv) {
-    const title = document.querySelector('title').textContent;
+    const h1 = targetDiv.querySelector('h1');
+    const btsTitle = h1.textContent;
+    
     const absoluteUrl = extractAbsoluteUrl(targetDiv);
-    return `${title}\n\`BTS\` ${absoluteUrl}`;
+    
+    return `${btsTitle}\n\`BTS\` ${absoluteUrl}`;
 }
 
 function generateCommitMessage(targetDiv) {
